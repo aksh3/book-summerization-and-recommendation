@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-booksdb}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-Postgres}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: always
+
+  web:
+    build: .
+    command: bash scripts/run_app.py
+    volumes:
+      - .:/code
+    environment:
+      - FLASK_ENV=${FLASK_ENV:-development}
+      - SECRET_KEY=${SECRET_KEY:-changeme-supersecret}
+      - JWT_SECRET=${JWT_SECRET:-changeme-jwttoken}
+      - DATABASE_URL=${DATABASE_URL:-postgresql+asyncpg://postgres:Postgres@db:5432/booksdb}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - LLAMA3_MODEL=${LLAMA3_MODEL:-llama3}
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - ollama
+
+volumes:
+  pgdata:
+  ollama_data:
