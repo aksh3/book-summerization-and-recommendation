@@ -124,8 +124,8 @@ paths:
           description: List of reviews
     post:
       summary: Add a review for a book
-#      security:
-#        - bearerAuth: []
+      security:
+        - bearerAuth: []
       parameters:
         - name: book_id
           in: path

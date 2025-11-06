@@ -4,6 +4,7 @@ from .auth import auth_bp
 from .books import books_bp
 from .reviews import reviews_bp
 from ..services.recommendation_and_generateSummery import generate_summary, get_recommendations_for_user
+from ..utils.jwt_utils import jwt_required
 
 
 def register_blueprints(app):
@@ -18,11 +19,13 @@ def register_blueprints(app):
         return {"msg": "Welcome to Bookman API. See /apidocs for Swagger."}, 200
 
     @app.route("/generate-summary",methods=["POST"])
+    @jwt_required()
     async def generate():
         data = request.get_json()
         return await generate_summary(data)
 
     @app.route("/recommendations", methods=["GET"])
+    @jwt_required()
     async def recommendations():
         args = request.args
         return await get_recommendations_for_user(args)

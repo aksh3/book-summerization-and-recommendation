@@ -31,9 +31,8 @@ async def generate_summary(data):
 
 async def get_recommendations_for_user(args):
     try:
-        # identity = get_jwt_identity()
-        # user_id = identity["id"]
-        user_id = 1
+        identity = get_jwt_identity()
+        user_id = identity["id"]
         async with async_session() as session:
             # Get user reviews
             result = await session.execute(select(Review).where(Review.user_id == user_id))
