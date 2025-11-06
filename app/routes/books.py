@@ -27,13 +27,13 @@ async def create_book_route():
 
 @books_bp.route("/<int:book_id>", methods=["PATCH"])
 @jwt_required()
-@requires_role("admin")
+# @requires_role("admin")
 async def update_book_route(book_id):
     data = request.get_json()
     return await update_book(book_id, data)
 
 @books_bp.route("/<int:book_id>", methods=["DELETE"])
 @jwt_required()
-@requires_role("admin")
+# @requires_role("admin")
 async def delete_book_route(book_id):
     return await delete_book(book_id)

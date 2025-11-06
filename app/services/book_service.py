@@ -24,16 +24,13 @@ async def get_book(book_id):
         return {"msg": "Book not found"}, 404
 
 async def create_book(data):
-    try:
-        async with async_session() as session:
-            book = Book(**data)
-            session.add(book)
-            await session.commit()
-            await session.refresh(book)
-            return jsonify(book_schema.dump(book)), 201
-    except Exception as e:
-        print("create_book")
-        return(e)
+    async with async_session() as session:
+        book = Book(**data)
+        session.add(book)
+        await session.commit()
+        await session.refresh(book)
+        return jsonify(book_schema.dump(book)), 201
+
 
 async def update_book(book_id, data):
     try:

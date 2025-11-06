@@ -1,4 +1,6 @@
 import os
+
+from asgiref.wsgi import WsgiToAsgi
 from flask import Flask
 from .config import Config
 from .extensions import db, migrate, jwt, ma
@@ -18,4 +20,5 @@ def create_app():
     ma.init_app(app)
     Swagger(app, template_file=os.path.join(os.path.dirname(__file__), "docs", "swagger.yaml"))
     register_blueprints(app)
+    app = WsgiToAsgi(app)
     return app

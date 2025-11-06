@@ -1,15 +1,18 @@
 def test_create_book(client):
+    breakpoint()
     # Simulate admin login to get JWT
-    resp = client.post("/api/auth/register", json={
-        "username": "admin",
-        "password": "adminpass"
+    resp = client.post("/auth/register", json={{
+  "email": "akash1@example.com",
+  "password": "secure123",
+  "username": "akash1"
+}
     })
-    login = client.post("/api/auth/login", json={
+    login = client.post("/auth/login", json={
         "username": "admin", "password": "adminpass"
     })
     token = login.json.get("access_token")
     resp = client.post(
-        "/api/books/",
+        "/books/",
         json={"title": "Book 1"},
         headers={"Authorization": f"Bearer {token}"}
     )

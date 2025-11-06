@@ -1,10 +1,10 @@
 def test_register_and_login(client):
-    resp = client.post("/api/auth/register", json={
+    resp = client.post("/auth/register", json={
         "username": "testuser",
         "password": "password"
     })
     assert resp.status_code == 201
-    resp = client.post("/api/auth/login", json={
+    resp = client.post("/auth/login", json={
         "username": "testuser",
         "password": "password"
     })

@@ -41,23 +41,26 @@ async def authenticate_user(data):
         username = data.get("username")
         password = data.get("password")
         email = data.get("email")
+
         async with async_session() as session:
             result = await session.execute(
                 select(User).options(selectinload(User.roles)).where(
                     or_(User.username == username, User.email == email)
                 )
             )
+            user = result.scalar_one_or_none()
 
-            user = result.scalar_one_or_none() or email.scalar_one_or_none()
             if user and verify_password(password, user.password_hash):
                 roles = [role.name for role in user.roles]
-                access_token = create_access_token(identity={"id": user.id, "username": user.username, "roles": roles})
+                access_token = create_access_token(
+                    identity={"id": user.id, "username": user.username, "roles": roles}
+                )
                 return {"access_token": access_token, "roles": roles}, 200
             else:
                 return {"msg": "Invalid username or password"}, 401
     except Exception as e:
-        print("authenticate_user")
-        return(e)
+        print("authenticate_user error:", e)
+        return {"error": str(e)}, 500
 
 async def get_current_user():
     identity = get_jwt_identity()
