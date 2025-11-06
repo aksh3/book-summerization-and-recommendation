@@ -16,7 +16,6 @@ ma = Marshmallow()
 
 # Async stack (used in service functions and async routes)
 DATABASE_URL = os.getenv("DATABASE_URL")
-print(DATABASE_URL)
 async_engine = create_async_engine(DATABASE_URL, echo=True)
 def get_async_session():
     return sessionmaker(bind=async_engine, class_=AsyncSession, expire_on_commit=False)
