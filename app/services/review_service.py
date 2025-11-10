@@ -22,6 +22,8 @@ async def get_review(book_id):
 
 async def create_review(data):
     async with async_session() as session:
+        identity = get_jwt_identity()
+        data["user_id"] = identity["id"]
         review = Review(**data)
         session.add(review)
         await session.commit()

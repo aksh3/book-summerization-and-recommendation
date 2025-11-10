@@ -41,7 +41,7 @@ async def get_recommendations_for_user(args):
             if not user_reviews:
                 # Recommend popular books
                 result = await session.execute(
-                    select(Book).order_by(desc(Book.review_count)).limit(5)
+                    select(Book).order_by(desc(Book.title)).limit(5)
                 )
                 books = result.scalars().all()
                 return jsonify({"recommendations": [b.title for b in books]}), 200

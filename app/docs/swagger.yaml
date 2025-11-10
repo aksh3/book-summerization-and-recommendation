@@ -45,7 +45,7 @@ components:
           type: integer
 
 paths:
-  /books/:
+  /books:
     get:
       summary: Get all books
       responses:

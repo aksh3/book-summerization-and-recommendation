@@ -25,7 +25,7 @@ async def create_book_route():
     data = request.get_json()
     return await create_book(data)
 
-@books_bp.route("/<int:book_id>", methods=["PATCH"])
+@books_bp.route("/<int:book_id>", methods=["PUT"])
 @jwt_required()
 # @requires_role("admin")
 async def update_book_route(book_id):

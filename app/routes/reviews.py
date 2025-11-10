@@ -13,6 +13,7 @@ async def get_review_route(book_id):
     return await get_review(book_id)
 
 @reviews_bp.route("/<int:book_id>/reviews", methods=["POST"])
+@jwt_required()
 async def create_review_route(book_id):
     data = request.get_json()
     return await create_review(data)
