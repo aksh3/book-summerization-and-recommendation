@@ -45,7 +45,6 @@ async def test_create_review(client,admin_token):
 @pytest.mark.asyncio
 async def test_get_reviews_after_creation(client):
     """Should return one review after creation."""
-    breakpoint()
     resp = await client.get("/books/42/reviews")
     assert resp.status_code == 200
     reviews = resp.json()
