@@ -52,52 +52,6 @@ flask db upgrade
 py run.py
 
 
+### run the test case
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-FLASK_ENV=development
-JWT_SECRET_KEY=your-secret-key
-DATABASE_URL=sqlite:///bookman.db
+pytest
